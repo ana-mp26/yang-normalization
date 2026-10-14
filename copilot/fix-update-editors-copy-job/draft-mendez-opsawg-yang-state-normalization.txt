@@ -1,0 +1,551 @@
+
+
+
+
+Operations and Management Area Working Group                   A. Méndez
+Internet-Draft                                                  D. López
+Intended status: Standards Track                              Telefonica
+Expires: 17 April 2027                                       J. Lindblad
+                                                             All For Eco
+                                                         14 October 2026
+
+
+              Normalized Representation of YANG State Data
+          draft-mendez-opsawg-yang-state-normalization-latest
+
+Abstract
+
+   This document defines a normalization procedure for YANG state data.
+   The procedure enables structurally equivalent YANG state data to
+   produce equivalent normalized representations independently of the
+   serialization format and applicable representation conventions.  The
+   normalized representation is intended to support comparison, hashing,
+   integrity verification, provenance, and other procedures that require
+   stable identification of equivalent YANG state data.  This version
+   defines a schema-independent normalization profile and assumes that
+   sibling ordering is not semantically significant.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at https://ana-
+   mp26.github.io/yang-state-normalization/draft-mendez-opsawg-yang-
+   state-normalization.html.  Status information for this document may
+   be found at https://datatracker.ietf.org/doc/draft-mendez-opsawg-
+   yang-state-normalization/.
+
+   Discussion of this document takes place on the Operations and
+   Management Area Working Group Working Group mailing list
+   (mailto:opsawg@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/opsawg/.  Subscribe at
+   https://www.ietf.org/mailman/listinfo/opsawg/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/ana-mp26/yang-state-normalization.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 17 April 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+     1.1.  Scope
+   2.  Conventions and Definitions
+   3.  Problem Statement
+     3.1.  Serialization Differences
+     3.2.  Ordering Differences
+     3.3.  Operational Use Cases
+   4.  Normalization Procedure
+   5.  Examples
+     5.1.  XML and JSON Representations
+   6.  Limitations
+   7.  Relationship to Existing Work
+   8.  Security Considerations
+   9.  IANA Considerations
+   10. Implementation status
+   11. References
+     11.1.  Normative References
+     11.2.  Informative References
+   Acknowledgments
+   Authors' Addresses
+
+1.  Introduction
+
+   YANG is widely used to model configuration data, operational state,
+   notifications, and other information exchanged between network
+   management systems.
+
+   Data modeled using YANG can be represented through different
+   serialization formats, including XML, JSON, and CBOR.  Furthermore,
+   equivalent YANG-modeled information may be serialized differently by
+   distinct implementations due to representation-specific conventions,
+   ordering choices, or encoding mechanisms.
+
+   These differences make it difficult to determine whether two
+   representations convey the same information.  As a result, operations
+   such as datastore comparison, data deduplication, fingerprint
+   generation, integrity verification, provenance processing, and
+   message-broker compaction often depend on representation-specific
+   artifacts rather than on the underlying information itself.
+
+   Existing normalization and canonicalization mechanisms operate at the
+   serialization level.  For example, XML, JSON, and CBOR provide
+   independent procedures for producing deterministic encodings of
+   individual documents.  However, these mechanisms do not address the
+   broader problem of obtaining a common representation across different
+   serialization formats.
+
+   This document defines a normalization procedure for YANG state data
+   that produces a deterministic representation independent of the
+   original serialization format.  The procedure enables equivalent
+   YANG-modeled information to converge into the same normalized
+   representation, providing a stable basis for comparison, fingerprint
+   generation, integrity verification, and other operational uses.
+
+   This version defines a schema-independent normalization profile.  The
+   procedure does not require access to the corresponding YANG schema
+   and assumes that sibling ordering is not semantically significant.
+
+1.1.  Scope
+
+   This document focuses on representation equivalence of YANG-modeled
+   data.
+
+   The procedure defined in this document is intended to identify when
+   different serialized representations convey equivalent information.
+
+   This document does not define a complete semantic normalization of
+   YANG datastore contents.  Schema-specific concepts such as default
+   values, identityref resolution, leafref resolution, and ordered-by-
+   user semantics are outside the scope of this version and may be
+   addressed by future work or versions.
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+   *  YANG State Data: Information modeled using YANG and represented in
+      a serialization format such as XML, JSON, or CBOR.
+
+   *  Representation: A concrete serialized encoding of YANG state data.
+      Examples include XML, JSON, and CBOR encodings conveying the same
+      underlying information.
+
+   *  Normalized Representation: A deterministic representation
+      generated by the normalization procedure defined in this document.
+
+   *  Representation Equivalence: Two representations are
+      representation-equivalent when they produce identical normalized
+      representations.
+
+   *  Structural Equivalence: The property whereby two representations
+      convey the same observable structure and values after
+      normalization.
+
+   *  Fingerprint: A cryptographic digest calculated from a normalized
+      representation.
+
+   *  Serialization Format: The concrete encoding format used to
+      represent YANG state data, including XML, JSON, and CBOR.
+
+   *  Schema-Independent Normalization: A normalization procedure that
+      does not require access to the corresponding YANG schema during
+      processing.
+
+   *  Semantic Equivalence: The property whereby two representations
+      correspond to the same YANG state after considering all schema-
+      dependent semantics.
+
+   Semantic equivalence is outside the scope of this document.
+
+3.  Problem Statement
+
+   YANG state data can be represented using multiple serialization
+   formats, including XML, JSON, and CBOR.
+
+   Existing normalization and canonicalization mechanisms provide
+   deterministic representations within a specific serialization format.
+   Examples include XML canonicalization, the JSON Canonicalization
+   Scheme (JCS), and deterministic CBOR encoding.
+
+   These mechanisms ensure that a given representation can be
+   transformed into a deterministic byte sequence.  However, they do not
+   provide a common representation across different serialization
+   formats, nor do they address representation variations that may arise
+   from implementation-specific choices.
+
+   As a consequence, semantically equivalent YANG-modeled information
+   may produce different serialized representations and therefore
+   different fingerprints, hashes, or signatures.
+
+   This limitation affects multiple operational scenarios, including
+   datastore comparison, provenance verification, message broker topic
+   compaction, data synchronization, and content deduplication.
+
+   The objective of this document is to define a normalization procedure
+   capable of producing a stable representation of YANG state data
+   independently of the original serialization format.
+
+3.1.  Serialization Differences
+
+   YANG state data can be represented using different serialization
+   formats, including XML, JSON, and CBOR.
+
+   Existing canonicalization mechanisms operate within a specific
+   serialization format and provide deterministic representations of
+   individual documents.  Examples include XML Canonicalization (XML-
+   C14N), the JSON Canonicalization Scheme (JCS) [RFC8785], and the
+   deterministic encoding rules defined for CBOR [RFC8949].
+
+   These mechanisms ensure that a given representation can be
+   transformed into a deterministic byte sequence.  However, these
+   mechanisms do not provide a common representation across different
+   serialization formats.
+
+   For example, the same YANG state data may be represented using XML,
+   JSON, or CBOR while conveying equivalent information.  Despite this
+   equivalence, the resulting representations differ structurally and
+   produce different byte sequences, hashes, and signatures.
+
+   Consequently, direct comparison of serialized data cannot reliably
+   determine whether two representations convey the same information.
+
+   A normalization procedure operating above the serialization layer is
+   therefore required to enable representation-independent comparison of
+   YANG state data.
+
+3.2.  Ordering Differences
+
+   Equivalent YANG state data may be serialized using different ordering
+   conventions.
+
+   In many operational scenarios, sibling ordering does not carry
+   semantic meaning and may vary between implementations, datastore
+   realizations, or serialization processes.
+
+   For example, one implementation may produce:
+
+   <aaa>
+     <bbb/>
+     <ccc/>
+     <ddd/>
+   </aaa>
+
+   while another implementation may produce:
+
+   <aaa>
+     <ddd/>
+     <bbb/>
+     <ccc/>
+   </aaa>
+
+   Although both representations may convey the same information, they
+   result in different serialized structures and therefore different
+   hashes, fingerprints, or signatures.
+
+   Such variations may arise from implementation-specific ordering
+   choices, internal datastore representations, module augmentations, or
+   serialization procedures.
+
+   A representation-level comparison is therefore insufficient to
+   determine equivalence of the information being conveyed.
+
+   A normalization procedure should eliminate non-semantic ordering
+   differences and produce identical normalized representations for
+   equivalent information.
+
+3.3.  Operational Use Cases
+
+   The absence of a representation-independent form of YANG state data
+   affects several operational scenarios, including:
+
+   *  *Datastore State Comparison:* Network management systems
+      frequently compare datastore snapshots obtained from different
+      devices, controllers, or processing stages.  Equivalent YANG state
+      data represented through different serialization formats or
+      ordering conventions may appear different when compared directly,
+      despite conveying the same information.
+
+   *  *Message Broker Applications:* YANG-modeled information is
+      increasingly exchanged through message broker infrastructures and
+      data distribution systems.  Stable identification of equivalent
+      information can support operations such as message deduplication,
+      topic compaction, change detection, and content synchronization.
+
+   *  *Data Synchronization and Replication:* Operational environments
+      frequently exchange YANG state data between multiple systems.  A
+      deterministic normalized representation can simplify state
+      comparison, synchronization procedures, and consistency
+      verification across distributed environments.
+
+   *  *Data Deduplication:* Storage and processing systems may benefit
+      from the ability to identify equivalent information independently
+      of the original representation.  A normalized representation
+      provides a stable basis for content identification and
+      deduplication.
+
+   *  *Provenance and Integrity Verification:* Where stable and
+      deterministic representations are required to generate
+      reproducible fingerprints, hashes, and signatures, such as the
+      previous use cases mentioned.
+
+4.  Normalization Procedure
+
+   The normalization procedure operates on YANG state data independently
+   of its original serialization format.
+
+   The procedure transforms XML, JSON, or CBOR representations into a
+   common normalized representation through a recursive processing
+   algorithm.
+
+   The normalization procedure conceptually constructs a schema-
+   independent abstract tree representation of the datastore contents.
+   This intermediate representation captures node identifiers, values,
+   and hierarchical relationships independently of the original
+   serialization format.  An implementation may realize this
+   representation as an Abstract Syntax Tree (AST) or any equivalent in-
+   memory data structure.
+
+   At a high level, the procedure consists of:
+
+   1.  Parsing the input representation.
+
+   2.  Constructing an internal hierarchical representation composed of
+       node identifiers, values, and descendants.
+
+   3.  Normalizing identifiers and values.
+
+   4.  Recursively normalizing descendant nodes.
+
+   5.  Eliminating non-semantic ordering differences.
+
+   6.  Generating a deterministic normalized representation.
+
+   The same YANG state information SHOULD produce the same normalized
+   representation regardless of the original serialization format.
+
+   XML  ----\
+             \
+   JSON ----- > Parse Input
+             /
+   CBOR ----/
+
+                 |
+                 v
+
+       Abstract Tree Representation
+
+                 |
+                 v
+
+      Recursive Normalization
+
+                 |
+                 v
+
+      Deterministic Ordering
+
+                 |
+                 v
+
+     Normalized Representation
+
+                 |
+                 v
+
+    Comparison / Fingerprinting
+
+5.  Examples
+
+   This section illustrates how equivalent YANG state data represented
+   using different serialization formats can produce the same normalized
+   representation.
+
+5.1.  XML and JSON Representations
+
+   The following XML and JSON representations convey equivalent
+   information.
+
+   <interface>
+     <name>eth0</name>
+     <enabled>true</enabled>
+   </interface>
+
+   {
+     "interface": {
+       "name": "eth0",
+       "enabled": true
+     }
+   }
+
+   After applying the normalization procedure, both representations
+   produce the same normalized form.
+
+   interface
+    ├─ enabled = true
+    └─ name = eth0
+
+6.  Limitations
+
+   This version intentionally focuses on schema-independent
+   normalization.
+
+   The following aspects are outside the scope of this version:
+
+   *  ordered-by-user semantics;
+
+   *  default value handling;
+
+   *  identityref resolution;
+
+   *  leafref resolution;
+
+   *  full semantic equivalence of YANG datastore states.
+
+   Future versions may define schema-aware normalization profiles that
+   address these aspects.
+
+7.  Relationship to Existing Work
+
+   The normalization procedure defined in this document ismintended to
+   complement existing efforts related to themprocessing,
+   identification, and distribution of YANG-modeled information.
+
+   The YANG provenance mechanisms defined in
+   [I-D.ietf-opsawg-yang-provenance] operate on serialized
+   representations of YANG data and can benefit from a stable,
+   representation-independent normalization procedure capable of
+   producing equivalent representations across different serialization
+   formats.
+
+   Similarly, work related to message broker identification and key
+   generation for YANG-modeled information, such as
+   [I-D.ietf-nmop-yang-message-broker-message-key], may benefit from a
+   normalization procedure that produces stable representations for
+   equivalent information independently of their original encoding.
+
+   This document does not modify or replace such mechanisms.  Instead,
+   it provides a potential foundation that can be used by higher-level
+   procedures requiring stable identification of equivalent YANG state
+   data.
+
+8.  Security Considerations
+
+   The normalization procedure defined in this document is intended to
+   provide a deterministic representation of YANG state data.  It does
+   not, by itself, provide integrity, authenticity, confidentiality, or
+   provenance guarantees.
+
+   Security properties may be obtained by applying appropriate
+   mechanisms, such as cryptographic hash functions, digital signatures,
+   or provenance procedures, to the resulting normalized representation.
+   Implementations relying on the normalized representation for
+   integrity verification or provenance applications MUST use
+   cryptographically secure algorithms appropriate for the intended use
+   case.  Incorrect normalization procedures may result in different
+   representations producing the same normalized output or in equivalent
+   information producing different normalized representations.  Such
+   situations may negatively affect comparison, fingerprint generation,
+   and verification procedures.  This version assumes that sibling
+   ordering is not semantically significant.  Applying the procedure to
+   data where ordering carries semantic meaning may produce incorrect
+   equivalence results.
+
+9.  IANA Considerations
+
+   This document has no IANA actions.
+
+10.  Implementation status
+
+   An open-source reference implementation, written in Java, is
+   available at https://github.com/tefiros/yang-data-normalization.
+
+11.  References
+
+11.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+11.2.  Informative References
+
+   [I-D.ietf-nmop-yang-message-broker-message-key]
+              Graf, T., Elhassany, A., Feng, A. H., Claise, B., and P.
+              Lucente, "YANG Message Keys for Message Broker
+              Integration", Work in Progress, Internet-Draft, draft-
+              ietf-nmop-yang-message-broker-message-key-02, 2 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-nmop-
+              yang-message-broker-message-key-02>.
+
+   [I-D.ietf-opsawg-yang-provenance]
+              Lopez, D., Pastor, A., Feng, A. H., Pérez, A. M., and H.
+              Birkholz, "Applying COSE Signatures for YANG Data
+              Provenance", Work in Progress, Internet-Draft, draft-ietf-
+              opsawg-yang-provenance-07, 6 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-opsawg-
+              yang-provenance-07>.
+
+   [RFC8785]  "JSON Canonicalization Scheme (JCS)", n.d..
+
+   [RFC8949]  "Concise Binary Object Representation (CBOR)", n.d..
+
+Acknowledgments
+
+   This document is based on work partially funded by the EU Horizon
+   Europe projects CYBERNEMO (grant 101168182) and 3C4AI (grant
+   101298630).
+
+Authors' Addresses
+
+   Ana Méndez
+   Telefonica
+   Email: ana.mendezperez@telefonica.com
+
+
+   Diego López
+   Telefonica
+   Email: diego.r.lopez@telefonica.com
+
+
+   Jan Lindblad
+   All For Eco
+   Email: jan.lindblad+ietf@for.eco
