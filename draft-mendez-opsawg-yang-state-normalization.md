@@ -309,7 +309,7 @@ This document has no IANA actions.
 
 # Implementation status
 
-An open-source reference implementation, written in Java, is available at https://github.com/tefiros/yang-data-normalization. 
+An open-source reference implementation, written in Java, is available at https://github.com/tefiros/yang-data-normalization.
 --- back
 
 # Acknowledgments
