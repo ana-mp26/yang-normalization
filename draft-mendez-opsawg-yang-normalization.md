@@ -1,9 +1,9 @@
 ---
-title: "Normalized Representation of YANG State Data"
-abbrev: "yang-state-normalization"
+title: "Normalized Representation of YANG Data for Equivalence Evaluation"
+abbrev: "yang-normalization"
 category: std
 
-docname: draft-mendez-opsawg-yang-state-normalization-latest
+docname: draft-mendez-opsawg-yang-normalization-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
@@ -21,7 +21,7 @@ venue:
   mail: "opsawg@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/opsawg/"
   github: "ana-mp26/yang-state-normalization"
-  latest: "https://ana-mp26.github.io/yang-state-normalization/draft-mendez-opsawg-yang-state-normalization.html"
+  latest: "https://ana-mp26.github.io/yang-state-normalization/draft-mendez-opsawg-yang-normalization.html"
 
 author:
  -  fullname: Ana Méndez
@@ -30,9 +30,6 @@ author:
  -  fullname: Diego López
     organization: Telefonica
     email: "diego.r.lopez@telefonica.com"
- -  fullname: Jan Lindblad
-    organization: All For Eco
-    email: "jan.lindblad+ietf@for.eco"
 
 normative:
 
@@ -48,7 +45,7 @@ informative:
 
 --- abstract
 
-This document defines a normalization procedure for YANG state data. The procedure enables structurally equivalent YANG state data to produce equivalent normalized representations independently of the serialization format and applicable representation conventions. The normalized representation is intended to support comparison, hashing, integrity verification, provenance, and other procedures that require stable identification of equivalent YANG state data. This version defines a schema-independent normalization profile and assumes that sibling ordering is not semantically significant.
+This document defines a normalization procedure for YANG-modeled information. The procedure enables structurally equivalent YANG-modeled data to produce equivalent normalized representations independently of the serialization format and applicable representation conventions. The normalized representation is intended to support comparison, hashing, integrity verification, provenance, and other procedures that require consistent representation of equivalent YANG-modeled information. This version defines a schema-independent normalization profile applicable to the procedures relaying on equivalence evaluation.
 
 
 --- middle
@@ -61,7 +58,7 @@ Data modeled using YANG can be represented through different serialization forma
 
 These differences make it difficult to determine whether two representations convey the same information. As a result, operations such as datastore comparison, data deduplication, fingerprint generation, integrity verification, provenance processing, and message-broker compaction often depend on representation-specific artifacts rather than on the underlying information itself.
 
-Existing normalization and canonicalization mechanisms operate at the serialization level. For example, XML, JSON, and CBOR provide independent procedures for producing deterministic encodings of individual documents. However, these mechanisms do not address the broader problem of obtaining a common representation across different serialization formats.
+Existing canonicalization mechanisms operate at the serialization level. For example, XML, JSON, and CBOR provide independent procedures for producing deterministic encodings of individual documents. However, these mechanisms do not address the broader problem of obtaining a common representation across different serialization formats.
 
 This document defines a normalization procedure for YANG state data that produces a deterministic representation independent of the original serialization format. The procedure enables equivalent YANG-modeled information to converge into the same normalized representation, providing a stable basis for comparison, fingerprint generation, integrity verification, and other operational uses.
 
@@ -104,7 +101,7 @@ Semantic equivalence is outside the scope of this document.
 
 YANG state data can be represented using multiple serialization formats, including XML, JSON, and CBOR.
 
-Existing normalization and canonicalization mechanisms provide deterministic representations within a specific serialization format. Examples include XML canonicalization, the JSON Canonicalization Scheme (JCS), and deterministic CBOR encoding.
+Existing canonicalization mechanisms provide deterministic representations within a specific serialization format. Examples include XML canonicalization, the JSON Canonicalization Scheme (JCS), and deterministic CBOR encoding.
 
 These mechanisms ensure that a given representation can be transformed into a deterministic byte sequence. However, they do not provide a common representation across different serialization formats, nor do they address representation variations that may arise from implementation-specific choices.
 

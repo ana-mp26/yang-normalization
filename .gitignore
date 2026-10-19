@@ -18,7 +18,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-mendez-opsawg-yang-state-normalization.xml
+draft-mendez-opsawg-yang-normalization.xml
 package-lock.json
 report.xml
 !requirements.txt

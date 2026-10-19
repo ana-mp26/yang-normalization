@@ -1,13 +1,13 @@
 <!-- regenerate: on (set to off if you edit this file) -->
 
-# Normalized Representation of YANG State Data
+# Normalized Representation of YANG Data for Equivalence Evaluation
 
-This is the working area for the individual Internet-Draft, "Normalized Representation of YANG State Data".
+This is the working area for the individual Internet-Draft, "Normalized Representation of YANG Data for Equivalence Evaluation".
 
-* [Editor's Copy](https://ana-mp26.github.io/yang-state-normalization/#go.draft-mendez-opsawg-yang-state-normalization.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mendez-opsawg-yang-state-normalization)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mendez-opsawg-yang-state-normalization)
-* [Compare Editor's Copy to Individual Draft](https://ana-mp26.github.io/yang-state-normalization/#go.draft-mendez-opsawg-yang-state-normalization.diff)
+* [Editor's Copy](https://ana-mp26.github.io/yang-state-normalization/#go.draft-mendez-opsawg-yang-normalization.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mendez-opsawg-yang-normalization)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mendez-opsawg-yang-normalization)
+* [Compare Editor's Copy to Individual Draft](https://ana-mp26.github.io/yang-state-normalization/#go.draft-mendez-opsawg-yang-normalization.diff)
 
 
 ## Contributing
@@ -28,4 +28,3 @@ $ make
 
 Command line usage requires that you have the necessary software installed.  See
 [the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
-
