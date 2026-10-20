@@ -151,7 +151,7 @@ The normalization procedure takes a serialized YANG data document as input and p
 
 ## Abstract Data Tree
 
-The procedure parses the input document according to its encoding and constructs an abstract data tree. This tree provides a common, encoding-independent representation of the data-node structure exposed by the serialized document.
+The procedure parses the input document according to its encoding and constructs an abstract syntax tree (AST) of the serialized data representation. This tree provides a common, encoding-independent representation of the data-node structure exposed by the serialized document.
 The abstract data tree represents YANG data instances. It is not an abstract syntax tree of a YANG module and is not constructed by parsing YANG schema statements.
 
 The tree contains a synthetic document root. The synthetic root provides a common container for the top-level nodes of the serialized input document. It does not correspond to a YANG data node and uses an empty identifier reserved for this purpose.
