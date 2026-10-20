@@ -195,7 +195,7 @@ These rules are recursive in definition. An implementation is not required to us
 
 XML attributes are not represented in the abstract data tree defined by this version. XML elements and their textual content are processed as data-tree nodes and values, respectively.
 
-[TBD: Specify the treatment of YANG metadata annotations, namespace-qualified identifiers, namespace declarations, format-specific constructs, and malformed or unsupported input structures.]
+**TBD:**  Specify the treatment of YANG metadata annotations, namespace-qualified identifiers, namespace declarations, format-specific constructs, and malformed or unsupported input structures.
 
 The same YANG-modeled information SHOULD produce the same normalized representation regardless of the original serialization format.
 
@@ -219,9 +219,8 @@ The same YANG-modeled information SHOULD produce the same normalized representat
             Child Node Sorting
                       |
                       v
-        Normalized Byte Representationy 
+        Normalized Byte Representation
                       |
-                      | 
                       v 
         Comparison Hashing / Signing
 ~~~
