@@ -277,12 +277,12 @@ Table of Contents
 4.1.  Abstract Data Tree
 
    The procedure parses the input document according to its encoding and
-   constructs an abstract data tree.  This tree provides a common,
-   encoding-independent representation of the data-node structure
-   exposed by the serialized document.  The abstract data tree
-   represents YANG data instances.  It is not an abstract syntax tree of
-   a YANG module and is not constructed by parsing YANG schema
-   statements.
+   constructs an abstract syntax tree (AST) of the serialized data
+   representation.  This tree provides a common, encoding-independent
+   representation of the data-node structure exposed by the serialized
+   document.  The abstract data tree represents YANG data instances.  It
+   is not an abstract syntax tree of a YANG module and is not
+   constructed by parsing YANG schema statements.
 
    The tree contains a synthetic document root.  The synthetic root
    provides a common container for the top-level nodes of the serialized
