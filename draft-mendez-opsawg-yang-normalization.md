@@ -221,16 +221,13 @@ The same YANG-modeled information SHOULD produce the same normalized representat
                       v
         Normalized Byte Representation
                       |
-                      v 
+                      v
         Comparison Hashing / Signing
 ~~~
 
 # Examples
 
 This section illustrates how equivalent YANG-modeled data represented using different serialization formats and encodings can produce the same normalized representation.
-
-## XML and JSON Representations
-
 The following XML and JSON representations examples are based on the interface data model originally defined in {{RFC7223}} and convey equivalent information.
 
 ~~~ xml
