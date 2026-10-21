@@ -148,7 +148,7 @@ The normalization procedure takes a serialized YANG data document as input and p
 
 ## Abstract Syntax Tree
 
-The procedure parses the input document according to its encoding and constructs an abstract syntax tree (AST) of the serialized data representation. Abstract syntax trees are described in {{Harper2016, Section 1.1}}.
+The procedure parses the input document according to its encoding and constructs an abstract syntax tree (AST) of the serialized data representation. Abstract syntax trees are described in Section 1.1 of {{Harper2016}}.
 
 For the purposes of this document, the AST does not represent every detail of the concrete input syntax. It preserves only the structural and content-related information required by the normalization procedure. This information consists of node identifiers, textual values, hierarchical relationships, and node multiplicity.
 
