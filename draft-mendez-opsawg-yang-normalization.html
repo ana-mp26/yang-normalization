@@ -8,12 +8,12 @@
 <meta content="Ana Méndez" name="author">
 <meta content="Diego López" name="author">
 <meta content="
-       This document defines a normalization procedure for YANG-modeled information.The procedure enables different serialized representations conveying equivalent information to produce the same normalized representation independently of the input encoding and applicable representation conventions.. The normalized representation is intended to support comparison, hashing, integrity verification, provenance, and other procedures that require consistent representation of equivalent YANG-modeled information. 
+       This document defines a normalization procedure for YANG-modeled information. The procedure enables different serialized representations conveying equivalent information to produce the same normalized representation independently of the input encoding and applicable representation conventions. The normalized representation is intended to support comparison, hashing, integrity verification, provenance, and other procedures that require consistent representation of equivalent YANG-modeled information. 
     " name="description">
 <meta content="xml2rfc 3.34.1" name="generator">
 <meta content="normalization" name="keyword">
 <meta content="datastore" name="keyword">
-<meta content="semantic representation" name="keyword">
+<meta content="equivalent representation" name="keyword">
 <meta content="draft-mendez-opsawg-yang-normalization-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.1
@@ -1048,7 +1048,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Méndez &amp; López</td>
-<td class="center">Expires 23 April 2027</td>
+<td class="center">Expires 24 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1061,12 @@ svg {
 <dd class="internet-draft">draft-mendez-opsawg-yang-normalization-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-20" class="published">20 October 2026</time>
+<time datetime="2026-10-21" class="published">21 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-23">23 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-24">24 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1083,7 +1083,7 @@ svg {
 <h1 id="title">Normalized Representation of YANG Data for Equivalence Evaluation</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines a normalization procedure for YANG-modeled information.The procedure enables different serialized representations conveying equivalent information to produce the same normalized representation independently of the input encoding and applicable representation conventions.. The normalized representation is intended to support comparison, hashing, integrity verification, provenance, and other procedures that require consistent representation of equivalent YANG-modeled information.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines a normalization procedure for YANG-modeled information. The procedure enables different serialized representations conveying equivalent information to produce the same normalized representation independently of the input encoding and applicable representation conventions. The normalized representation is intended to support comparison, hashing, integrity verification, provenance, and other procedures that require consistent representation of equivalent YANG-modeled information.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1120,7 +1120,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1172,7 +1172,7 @@ svg {
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-normalization-procedure" class="internal xref">Normalization Procedure</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-abstract-data-tree" class="internal xref">Abstract Data Tree</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-abstract-syntax-tree" class="internal xref">Abstract Syntax Tree</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-tree-construction" class="internal xref">Tree Construction</a></p>
@@ -1225,18 +1225,13 @@ svg {
 <p id="section-1-3">These differences make it difficult to determine whether two representations convey the same information. As a result, operations such as datastore comparison, data deduplication, fingerprint generation, integrity verification, provenance processing, and message-broker compaction often depend on representation-specific artifacts rather than on the underlying information itself.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">Existing canonicalization mechanisms operate at the encoding level. For example, XML, JSON, and CBOR provide independent procedures for producing deterministic encodings of individual documents. However, these mechanisms do not address the broader problem of obtaining a common representation across different encodings.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">This document defines a normalization procedure for YANG-modeled information that produces a deterministic representation independent of the original encoding. The procedure enables equivalent YANG-modeled information to converge into the same normalized representation, providing a stable basis for comparison, fingerprint generation, integrity verification, and other operational uses.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">This initial version focuses on the fundamental normalization procedure. The YANG schema information, if any, required to construct the normalized representation remains to be
-determined.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="scope">
 <section id="section-1.1">
         <h3 id="name-scope">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
         </h3>
-<p id="section-1.1-1">This document focuses on representation equivalence of YANG-modeled data.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
-<p id="section-1.1-2">The procedure defined in this document is intended to identify when different serialized representations convey equivalent information.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
-<p id="section-1.1-3">This initial version focuses on the fundamental normalization procedure. The treatment of schema-specific semantics, including default values, identityref and leafref resolution, and ordered-by-user semantics, is not yet fully specified.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
-<p id="section-1.1-4">Further versions of this document are expected to determine whether these aspects require specific normalization rules or are inherently addressed by the general normalization procedure.
-Where specific handling is required to preserve equivalence, the corresponding rules will be incorporated into the normalization procedure.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+<p id="section-1.1-1">This document focuses on representation equivalence of YANG-modeled data.
+The procedure defined in this document is intended to identify when different serialized representations convey equivalent information. Semantic equivalence is outside the scope of this version of the document.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1252,7 +1247,7 @@ described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</s
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-2.1">
-          <p id="section-2-2.1.1">Representation: A concrete serialized encoding of YANG-modeled data. Examples include XML, JSON, and CBOR encodings conveying the same underlying information.<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.1.1">Representation: A concrete serialized einstance of YANG-modeled data. Examples include XML, JSON, and CBOR encodings conveying the same underlying information.<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-2.2">
           <p id="section-2-2.2.1">Normalized Representation: A deterministic representation generated by the normalization procedure defined in this document.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
@@ -1270,7 +1265,6 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
           <p id="section-2-2.6.1">Semantic Equivalence: The property whereby two representations correspond to the same YANG-modeled information after considering all schema-dependent semantics.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-2-3">Semantic equivalence is outside the scope of this version of the document.<a href="#section-2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="problem-statement">
@@ -1313,7 +1307,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3.1-1">The absence of a representation-independent form of YANG-modeled data affects several operational scenarios, including:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.1-2.1">
-            <p id="section-3.1-2.1.1"><strong>Datastore State Comparison:</strong>  Network management systems frequently compare datastore snapshots obtained from different devices, controllers, or processing stages. Equivalent YANG-modeled data represented through different encoding formats or ordering conventions may appear different when compared directly, despite conveying the same information.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.1.1"><strong>Datastore State Comparison:</strong>  Network management systems frequently compare datastore snapshots obtained from different devices, controllers, or processing stages. Equivalent YANG-modeled data represented through different encodings or ordering conventions may appear different when compared directly, despite conveying the same information.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
             <p id="section-3.1-2.2.1"><strong>Message Broker Applications:</strong> YANG-modeled information is increasingly exchanged through message broker infrastructures and data distribution systems. Consistent representation of equivalent information can support operations such as message deduplication, topic compaction, change detection, and content synchronization.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
@@ -1338,25 +1332,26 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-normalization-procedure" class="section-name selfRef">Normalization Procedure</a>
       </h2>
 <p id="section-4-1">The normalization procedure takes a serialized YANG data document as input and produces a deterministic normalized representation.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<div id="abstract-data-tree">
+<div id="abstract-syntax-tree">
 <section id="section-4.1">
-        <h3 id="name-abstract-data-tree">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-abstract-data-tree" class="section-name selfRef">Abstract Data Tree</a>
+        <h3 id="name-abstract-syntax-tree">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-abstract-syntax-tree" class="section-name selfRef">Abstract Syntax Tree</a>
         </h3>
-<p id="section-4.1-1">The procedure parses the input document according to its encoding and constructs an abstract syntax tree (AST) of the serialized data representation. This tree provides a common, encoding-independent representation of the data-node structure exposed by the serialized document.
-The abstract data tree represents YANG data instances. It is not an abstract syntax tree of a YANG module and is not constructed by parsing YANG schema statements.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.1-2">The tree contains a synthetic document root. The synthetic root provides a common container for the top-level nodes of the serialized input document. It does not correspond to a YANG data node and uses an empty identifier reserved for this purpose.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.1-3">Each node below the synthetic document root has a non-empty identifier and is one of the following:<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-1">The procedure parses the input document according to its encoding and constructs an abstract syntax tree (AST) of the serialized data representation. Abstract syntax trees are described in Section 1.1 of <span>[<a href="#Harper2016" class="cite xref">Harper2016</a>]</span>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">For the purposes of this document, the AST does not represent every detail of the concrete input syntax. It preserves only the structural and content-related information required by the normalization procedure. This information consists of node identifiers, textual values, hierarchical relationships, and node multiplicity.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">The AST provides a common, encoding-independent representation of serialized YANG-modeled data. It is constructed without consulting a YANG schema. Consequently, it represents the observable structure and textual values exposed by the serialized document but does not resolve schema-dependent YANG semantics.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-4">The tree contains a synthetic document root. The synthetic root provides a common container for the top-level nodes of the serialized input document. It does not correspond to a YANG data node and uses an empty identifier reserved for this purpose.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.1-5">Each node below the synthetic document root has a non-empty identifier and is one of the following:<a href="#section-4.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1-4.1">
-            <p id="section-4.1-4.1.1">a leaf node, which contains a textual value and has no child nodes; or<a href="#section-4.1-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1-6.1">
+            <p id="section-4.1-6.1.1">a leaf node, which contains a textual value and has no child nodes;<a href="#section-4.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-4.1-4.2">
-            <p id="section-4.1-4.2.1">an inner node, which contains zero or more child nodes and has no textual value.<a href="#section-4.1-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-4.1-6.2">
+            <p id="section-4.1-6.2.1">an inner node, which contains zero or more child nodes and has no textual value.<a href="#section-4.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-4.1-5">A node cannot contain both a textual value and child nodes.
-The abstract data tree preserves node multiplicity. Multiple nodes may have the same identifier, and identical nodes are not implicitly removed.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
+<p id="section-4.1-7">A node cannot contain both a textual value and child nodes.
+The abstract syntax tree preserves node multiplicity. Multiple nodes may have the same identifier, and identical nodes are not implicitly removed.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tree-construction">
@@ -1398,7 +1393,10 @@ The abstract data tree preserves node multiplicity. Multiple nodes may have the 
         </ol>
 <p id="section-4.2-5">These rules are recursive in definition. An implementation is not required to use recursion internally, provided that it produces the same abstract data tree.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
 <p id="section-4.2-6">XML attributes are not represented in the abstract data tree defined by this version. XML elements and their textual content are processed as data-tree nodes and values, respectively.<a href="#section-4.2-6" class="pilcrow">¶</a></p>
-<p id="section-4.2-7"><strong>TBD:</strong>  Specify the treatment of YANG metadata annotations, namespace-qualified identifiers, namespace declarations, format-specific constructs, and malformed or unsupported input structures.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
+<p id="section-4.2-7"><strong>TBD:</strong>  Specify the treatment of YANG metadata annotations, namespace-qualified identifiers, namespace declarations, format-specific constructs, and malformed or unsupported input structures.
+This initial version focuses on the fundamental normalization procedure. The treatment of schema-specific semantics, including default values, identityref and leafref resolution, and ordered-by-user semantics, is TBD.
+Further versions of this document are expected to determine whether these aspects require specific normalization rules or are inherently addressed by the general normalization procedure.
+Where specific handling is required to preserve equivalence, the corresponding rules will be incorporated into the normalization procedure.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
 <p id="section-4.2-8">The same YANG-modeled information <span class="bcp14">SHOULD</span> produce the same normalized representation regardless of the original serialization format.<a href="#section-4.2-8" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4.2-9">
 <pre>
@@ -1595,6 +1593,10 @@ Incorrect normalization procedures may result in different representations produ
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="Harper2016">[Harper2016]</dt>
+        <dd>
+<span class="refAuthor">Harper, R.</span>, <span class="refTitle">"Practical Foundations for Programming Languages"</span>, <span class="refContent">Cambridge University Press, ISBN 978-1-107-15030-0</span>, <span class="seriesInfo">Second Edition </span>, <time datetime="2016" class="refDate">2016</time>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-nmop-yang-message-broker-message-key">[I-D.ietf-nmop-yang-message-broker-message-key]</dt>
         <dd>
 <span class="refAuthor">Graf, T.</span>, <span class="refAuthor">Elhassany, A.</span>, <span class="refAuthor">Feng, A. H.</span>, <span class="refAuthor">Claise, B.</span>, and <span class="refAuthor">P. Lucente</span>, <span class="refTitle">"YANG Message Keys for Message Broker Integration"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-nmop-yang-message-broker-message-key-02</span>, <time datetime="2026-07-02" class="refDate">2 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-nmop-yang-message-broker-message-key-02">https://datatracker.ietf.org/doc/html/draft-ietf-nmop-yang-message-broker-message-key-02</a>&gt;</span>. </dd>
