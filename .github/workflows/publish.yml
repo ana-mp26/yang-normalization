@@ -55,7 +55,7 @@ jobs:
       with:
         make: upload
       env:
-        UPLOAD_EMAIL: ${{ inputs.email }}
+        UPLOAD_EMAIL: ${{ inputs.email || 'ana.mendezperez@telefonica.com' }}
         GITHUB_STEP: upload
 
     - name: "Archive Submitted Drafts"
