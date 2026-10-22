@@ -76,7 +76,7 @@ This document defines a normalization procedure for YANG-modeled information tha
 ## Scope
 
 This document focuses on representation equivalence of YANG-modeled data.
-The procedure defined in this document is intended to identify when different serialized representations convey equivalent information. Semantic equivalence is outside the scope of this version of the document.
+The procedure defined in this document is intended to identify when different serialized representations convey equivalent information. Semantic equivalence is outside the scope of this document.
 
 # Conventions and Definitions
 
@@ -193,7 +193,7 @@ The following conceptual rules are then applied:
 
 These rules are recursive in definition. An implementation is not required to use recursion internally, provided that it produces the same abstract data tree.
 
-XML attributes are not represented in the abstract data tree defined by this version. XML elements and their textual content are processed as data-tree nodes and values, respectively.
+XML attributes are not represented in the abstract data tree defined by this version, the treatment of attributes is TBD. XML elements and their textual content are processed as data-tree nodes and values, respectively.
 
 **TBD:**  Specify the treatment of YANG metadata annotations, namespace-qualified identifiers, namespace declarations, format-specific constructs, and malformed or unsupported input structures.
 This initial version focuses on the fundamental normalization procedure. The treatment of schema-specific semantics, including default values, identityref and leafref resolution, and ordered-by-user semantics, is TBD.
@@ -201,14 +201,14 @@ Further versions of this document are expected to determine whether these aspect
 Where specific handling is required to preserve equivalence, the corresponding rules will be incorporated into the normalization procedure.
 
 
-The same YANG-modeled information SHOULD produce the same normalized representation regardless of the original serialization format.
+The same YANG-modeled information MUST produce the same normalized representation regardless of the original serialization format.
 
 ~~~
-         Serialized YANG Data Document
+       Serialized YANG Data Document
              XML / JSON / CBOR
                       |
                       v
-          Encoding-Specific Parser
+          Encoding-Specific Parsing
                       |
                       v
             Abstract Data Tree
@@ -223,10 +223,10 @@ The same YANG-modeled information SHOULD produce the same normalized representat
             Child Node Sorting
                       |
                       v
-        Normalized Byte Representation
+       Normalized Byte Representation
                       |
                       v
-        Comparison Hashing / Signing
+    Comparison / Hashing / Signing /...
 ~~~
 
 # Examples
