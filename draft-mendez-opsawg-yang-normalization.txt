@@ -5,7 +5,7 @@
 Operations and Management Area Working Group                   A. Méndez
 Internet-Draft                                                  D. López
 Intended status: Standards Track                              Telefonica
-Expires: 24 April 2027                                   21 October 2026
+Expires: 25 April 2027                                   22 October 2026
 
 
    Normalized Representation of YANG Data for Equivalence Evaluation
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 April 2027.
+   This Internet-Draft will expire on 25 April 2027.
 
 Copyright Notice
 
@@ -131,7 +131,7 @@ Table of Contents
    data.  The procedure defined in this document is intended to identify
    when different serialized representations convey equivalent
    information.  Semantic equivalence is outside the scope of this
-   version of the document.
+   document.
 
 2.  Conventions and Definitions
 
@@ -338,8 +338,9 @@ Table of Contents
    same abstract data tree.
 
    XML attributes are not represented in the abstract data tree defined
-   by this version.  XML elements and their textual content are
-   processed as data-tree nodes and values, respectively.
+   by this version, the treatment of attributes is TBD.  XML elements
+   and their textual content are processed as data-tree nodes and
+   values, respectively.
 
    *TBD:* Specify the treatment of YANG metadata annotations, namespace-
    qualified identifiers, namespace declarations, format-specific
@@ -354,14 +355,14 @@ Table of Contents
    corresponding rules will be incorporated into the normalization
    procedure.
 
-   The same YANG-modeled information SHOULD produce the same normalized
+   The same YANG-modeled information MUST produce the same normalized
    representation regardless of the original serialization format.
 
-            Serialized YANG Data Document
+          Serialized YANG Data Document
                 XML / JSON / CBOR
                          |
                          v
-             Encoding-Specific Parser
+             Encoding-Specific Parsing
                          |
                          v
                Abstract Data Tree
@@ -376,10 +377,10 @@ Table of Contents
                Child Node Sorting
                          |
                          v
-           Normalized Byte Representation
+          Normalized Byte Representation
                          |
                          v
-           Comparison Hashing / Signing
+       Comparison / Hashing / Signing /...
 
 5.  Examples
 

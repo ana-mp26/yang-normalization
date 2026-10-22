@@ -1048,7 +1048,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Méndez &amp; López</td>
-<td class="center">Expires 24 April 2027</td>
+<td class="center">Expires 25 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1061,12 @@ svg {
 <dd class="internet-draft">draft-mendez-opsawg-yang-normalization-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-21" class="published">21 October 2026</time>
+<time datetime="2026-10-22" class="published">22 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-24">24 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-25">25 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1231,7 +1231,7 @@ svg {
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
         </h3>
 <p id="section-1.1-1">This document focuses on representation equivalence of YANG-modeled data.
-The procedure defined in this document is intended to identify when different serialized representations convey equivalent information. Semantic equivalence is outside the scope of this version of the document.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+The procedure defined in this document is intended to identify when different serialized representations convey equivalent information. Semantic equivalence is outside the scope of this document.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1392,19 +1392,19 @@ The abstract syntax tree preserves node multiplicity. Multiple nodes may have th
 </li>
         </ol>
 <p id="section-4.2-5">These rules are recursive in definition. An implementation is not required to use recursion internally, provided that it produces the same abstract data tree.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
-<p id="section-4.2-6">XML attributes are not represented in the abstract data tree defined by this version. XML elements and their textual content are processed as data-tree nodes and values, respectively.<a href="#section-4.2-6" class="pilcrow">¶</a></p>
+<p id="section-4.2-6">XML attributes are not represented in the abstract data tree defined by this version, the treatment of attributes is TBD. XML elements and their textual content are processed as data-tree nodes and values, respectively.<a href="#section-4.2-6" class="pilcrow">¶</a></p>
 <p id="section-4.2-7"><strong>TBD:</strong>  Specify the treatment of YANG metadata annotations, namespace-qualified identifiers, namespace declarations, format-specific constructs, and malformed or unsupported input structures.
 This initial version focuses on the fundamental normalization procedure. The treatment of schema-specific semantics, including default values, identityref and leafref resolution, and ordered-by-user semantics, is TBD.
 Further versions of this document are expected to determine whether these aspects require specific normalization rules or are inherently addressed by the general normalization procedure.
 Where specific handling is required to preserve equivalence, the corresponding rules will be incorporated into the normalization procedure.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
-<p id="section-4.2-8">The same YANG-modeled information <span class="bcp14">SHOULD</span> produce the same normalized representation regardless of the original serialization format.<a href="#section-4.2-8" class="pilcrow">¶</a></p>
+<p id="section-4.2-8">The same YANG-modeled information <span class="bcp14">MUST</span> produce the same normalized representation regardless of the original serialization format.<a href="#section-4.2-8" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4.2-9">
 <pre>
-         Serialized YANG Data Document
+       Serialized YANG Data Document
              XML / JSON / CBOR
                       |
                       v
-          Encoding-Specific Parser
+          Encoding-Specific Parsing
                       |
                       v
             Abstract Data Tree
@@ -1419,10 +1419,10 @@ Where specific handling is required to preserve equivalence, the corresponding r
             Child Node Sorting
                       |
                       v
-        Normalized Byte Representation
+       Normalized Byte Representation
                       |
                       v
-        Comparison Hashing / Signing
+    Comparison / Hashing / Signing /...
 </pre><a href="#section-4.2-9" class="pilcrow">¶</a>
 </div>
 </section>
