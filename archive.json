@@ -1,7 +1,7 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-22T02:33:27.659681+00:00",
-  "repo": "ana-mp26/yang-state-normalization",
+  "timestamp": "2026-10-25T02:23:55.580806+00:00",
+  "repo": "ana-mp26/yang-normalization",
   "labels": [
     {
       "name": "accessibility",
@@ -60,7 +60,7 @@
       "number": 1,
       "id": "PR_kwDOULBLos8AAAABIXMzqA",
       "title": "Fix Editor\u2019s Copy build lint failure",
-      "url": "https://github.com/ana-mp26/yang-state-normalization/pull/1",
+      "url": "https://github.com/ana-mp26/yang-normalization/pull/1",
       "state": "CLOSED",
       "author": "copilot-swe-agent",
       "authorAssociation": "NONE",
@@ -72,10 +72,10 @@
       "body": "The **Update Editor\u2019s Copy** workflow failed because the draft source contained trailing whitespace. Remove the whitespace so the build\u2019s lint check can pass.\n\n- **Draft source:** Trim trailing whitespace from the implementation-status paragraph.",
       "createdAt": "2026-10-14T10:00:32Z",
       "updatedAt": "2026-10-14T10:50:14Z",
-      "baseRepository": "ana-mp26/yang-state-normalization",
+      "baseRepository": "ana-mp26/yang-normalization",
       "baseRefName": "main",
       "baseRefOid": "07558e6cba529581c55d1d2827622b665ba5d997",
-      "headRepository": "ana-mp26/yang-state-normalization",
+      "headRepository": "ana-mp26/yang-normalization",
       "headRefName": "copilot/fix-update-editors-copy-job",
       "headRefOid": "ecd11ae07e7a24952fc5e0c95f85490a619b6dc0",
       "closedAt": "2026-10-14T10:50:14Z",
